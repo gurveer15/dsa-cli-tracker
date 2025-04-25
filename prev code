@@ -1,0 +1,82 @@
+# Function to load data from JSON file
+def load_data():
+    try:
+        with open('questions.json', 'r') as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        data = []
+    return data
+
+# Function to save data to JSON file
+def save_data(data):
+    with open('questions.json', 'w') as file:
+        json.dump(data, file, indent=4)
+
+# Function to add a new question
+def add_question():
+    title = input("Enter question title: ")
+    topic = input("Enter topic: ")
+    difficulty = input("Enter difficulty (Easy/Med/Hard): ")
+    status = input("Solved or Unsolved? ")
+
+    question = {
+        'title': title,
+        'topic': topic,
+        'difficulty': difficulty,
+        'status': status
+    }
+
+    data = load_data()
+    data.append(question)
+    save_data(data)
+    print("\nQuestion added successfully!\n")
+
+# Function to view all questions
+def view_questions():
+    data = load_data()
+    if not data:
+        print("No questions found.\n")
+    else:
+        for i, question in enumerate(data, 1):
+            print(i, ".", question['title'], "| Topic:", question['topic'], "| Difficulty:", question['difficulty'], "| Status:", question['status'])
+        print("\n")
+
+# Function to search questions by topic
+def search_by_topic():
+    topic = input("Enter the topic to search: ")
+    data = load_data()
+    found = False
+
+    for question in data:
+        if question['topic'].lower() == topic.lower():
+            print("Title: ",question['title']," | Difficulty: ",question['difficulty']," | Status: ",question['status'])
+            found = True
+    if not found:
+        print("No questions found for this topic.\n")
+
+#Function to update the status for a question
+def update_status():
+    data = load_data()  # Load existing data from JSON
+    if not data:
+        print("No questions to update.\n")
+        return
+
+    # Display questions with current status
+    for i, question in enumerate(data, 1):
+        print(f"{i}. {question['title']} | Status: {question['status']}")
+
+    try:
+        # Ask for the question number to update
+        index = int(input("Enter the number of the question to update: ")) - 1
+        if 0 <= index < len(data):
+            new_status = input("Enter new status (Solved/Unsolved): ").capitalize()
+            if new_status in ['Solved', 'Unsolved']:
+                data[index]['status'] = new_status  # Update the status
+                save_data(data)  # Save updated data back to JSON
+                print("Status updated successfully.\n")
+            else:
+                print("Invalid status. Please enter 'Solved' or 'Unsolved'.\n")
+        else:
+            print("Invalid question number.\n")
+    except ValueError:
+        print("Please enter a valid number.\n")
