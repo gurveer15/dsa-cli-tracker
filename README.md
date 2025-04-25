@@ -34,6 +34,8 @@ A Command Line Interface (CLI) tool to help you track and organize your progress
     ```bash
     ./tracker
     ```
+## Database Setup
+To load sample questions into the tool, you can run the questions.sql file into your database (e.g. using MySQL).
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
