@@ -63,11 +63,5 @@ VALUES
 
 SELECT * FROM questions;
 
-ALTER TABLE questions
-MODIFY COLUMN id INT NOT NULL AUTO_INCREMENT;
-
-SELECT * FROM questions WHERE solvestatus = 'Unsolved' AND difficulty = 'Easy';
-
-SELECT  solvestatus FROM questions;
-SELECT difficulty, solvestatus FROM questions WHERE LOWER(difficulty) = 'easy' AND LOWER(solvestatus) = 'unsolved';
+DROP TABLE IF EXISTS questions;
 
